@@ -4,6 +4,8 @@ services:
     image: postgres:18
     container_name: auth-db
     restart: always
+    expose:
+      - "5432"
     environment:
       POSTGRES_DB: ${AUTH_DB_NAME}
       POSTGRES_USER: ${AUTH_DB_USER}
@@ -15,6 +17,8 @@ services:
     image: postgres:18
     container_name: map-db
     restart: always
+    expose:
+      - "5432"
     environment:
       POSTGRES_DB: ${MAP_DB_NAME}
       POSTGRES_USER: ${MAP_DB_USER}
