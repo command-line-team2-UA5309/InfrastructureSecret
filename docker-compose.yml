@@ -1,29 +1,31 @@
 services:
 
   auth-db:
-    image: postgres:16
-    container_name: auth_db
+    image: postgres:18
+    container_name: auth-db
     restart: always
     environment:
       POSTGRES_DB: ${AUTH_DB_NAME}
       POSTGRES_USER: ${AUTH_DB_USER}
       POSTGRES_PASSWORD: ${AUTH_DB_PASS}
     volumes:
-      - auth_data:/var/lib/postgresql/data
+      - auth_data:/var/lib/postgresql
 
   map-db:
-    image: postgres:16
-    container_name: map_db
+    image: postgres:18
+    container_name: map-db
     restart: always
     environment:
       POSTGRES_DB: ${MAP_DB_NAME}
       POSTGRES_USER: ${MAP_DB_USER}
       POSTGRES_PASSWORD: ${MAP_DB_PASS}
     volumes:
-      - map_data:/var/lib/postgresql/data
+      - map_data:/var/lib/postgresql
 
   auth-service:
     build: ./DjangoBackend
+    expose:
+      - "8000"
     depends_on:
       - auth-db
     environment:
@@ -35,6 +37,8 @@ services:
 
   map-service:
     build: ./MapService
+    expose:
+      - "8001"
     depends_on:
       - map-db
     environment:
