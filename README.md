@@ -9,7 +9,8 @@ This repository contains a Docker Compose setup for:
 
 ## Submodules
 
-This project uses Git submodules for backend and frontend. After cloning, initialize them:
+This project uses Git submodules for backend and frontend.
+After cloning, initialize them:
 
 - DjangoBackend - DjangoBackend folder
 - MapService - MapService folder
@@ -19,15 +20,16 @@ This project uses Git submodules for backend and frontend. After cloning, initia
 
 1. Clone this repository with submodules:
 
-```git clone --recurse-submodules <this-repo-url>```
+   ```git clone --recurse-submodules <this-repo-url>```
 
-If you already cloned without --recurse-submodules, initialize them:
+   If you already cloned without --recurse-submodules, initialize them:
 
-```git submodule update --init --recursive```
+   ```git submodule update --init --recursive```
 
 2. Copy `.env.example` to `.env` and fill in your variables.
 
 3. Build and start all services:
+
    ```docker compose up --build```
 
 ## How to set up pre-commit hooks
