@@ -20,7 +20,7 @@ After cloning, initialize them:
 
 1. Clone this repository with submodules:
 
-   ```git clone --recurse-submodules <this-repo-url>```
+   ```git clone --recurse-submodules```
 
    If you already cloned without --recurse-submodules, initialize them:
 
