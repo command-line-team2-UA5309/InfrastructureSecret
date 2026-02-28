@@ -1,0 +1,10 @@
+[submodule "DjangoBackend"]
+	path = DjangoBackend
+	url = https://github.com/command-line-team2-UA5309/DjangoBackend.git
+[submodule "MapService"]
+	path = MapService
+	url = https://github.com/command-line-team2-UA5309/MapService.git
+[submodule "VueFrontend"]
+	path = VueFrontend
+	url = https://github.com/command-line-team2-UA5309/VueFrontend.git
+	branch = feature/CLT-60-auth-frontend

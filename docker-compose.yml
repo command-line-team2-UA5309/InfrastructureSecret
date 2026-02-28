@@ -1,0 +1,65 @@
+services:
+
+  auth-db:
+    image: postgres:18
+    container_name: auth-db
+    restart: always
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: ${AUTH_DB_NAME}
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASS}
+    volumes:
+      - auth_data:/var/lib/postgresql
+
+  map-db:
+    image: postgres:18
+    container_name: map-db
+    restart: always
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: ${MAP_DB_NAME}
+      POSTGRES_USER: ${MAP_DB_USER}
+      POSTGRES_PASSWORD: ${MAP_DB_PASS}
+    volumes:
+      - map_data:/var/lib/postgresql
+
+  auth-service:
+    build: ./DjangoBackend
+    expose:
+      - "8000"
+    depends_on:
+      - auth-db
+    environment:
+      DATABASE_NAME: ${AUTH_DB_NAME}
+      DATABASE_USER: ${AUTH_DB_USER}
+      DATABASE_PASS: ${AUTH_DB_PASS}
+      DATABASE_HOST: auth-db
+      DATABASE_PORT: ${DB_PORT}
+
+  map-service:
+    build: ./MapService
+    expose:
+      - "8001"
+    depends_on:
+      - map-db
+    environment:
+      DATABASE_NAME: ${MAP_DB_NAME}
+      DATABASE_USER: ${MAP_DB_USER}
+      DATABASE_PASS: ${MAP_DB_PASS}
+      DATABASE_HOST: map-db
+      DATABASE_PORT: ${DB_PORT}
+
+  frontend:
+    build: ./VueFrontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - auth-service
+      - map-service
+
+volumes:
+  auth_data:
+  map_data:
