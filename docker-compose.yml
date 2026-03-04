@@ -38,6 +38,8 @@ services:
       DATABASE_PASS: ${AUTH_DB_PASS}
       DATABASE_HOST: auth-db
       DATABASE_PORT: ${DB_PORT}
+    ports:
+      - "8000:8000"
 
   map-service:
     build: ./MapService
@@ -51,14 +53,34 @@ services:
       DATABASE_PASS: ${MAP_DB_PASS}
       DATABASE_HOST: map-db
       DATABASE_PORT: ${DB_PORT}
+    ports:
+      - "8001:8001"
 
   frontend:
     build: ./VueFrontend
     ports:
-      - "5173:5173"
+      - "7000:80"
     depends_on:
       - auth-service
       - map-service
+
+
+
+  migration_auth:
+    build: ./DjangoBackend
+    command: ["python3", "manage.py", "migrate"]
+    links:
+      - auth-db
+    depends_on:
+      - auth-db
+
+  migration_map:
+    build: ./MapService
+    command: ["python3", "manage.py", "migrate"]
+    links:
+      - map-db
+    depends_on:
+      - map-db
 
 volumes:
   auth_data:
