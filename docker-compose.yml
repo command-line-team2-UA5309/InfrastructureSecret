@@ -69,16 +69,12 @@ services:
   migration_auth:
     build: ./DjangoBackend
     command: ["python3", "manage.py", "migrate"]
-    links:
-      - auth-db
     depends_on:
       - auth-db
 
   migration_map:
     build: ./MapService
     command: ["python3", "manage.py", "migrate"]
-    links:
-      - map-db
     depends_on:
       - map-db
 
