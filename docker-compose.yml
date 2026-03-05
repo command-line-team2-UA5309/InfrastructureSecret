@@ -38,8 +38,6 @@ services:
       DATABASE_PASS: ${AUTH_DB_PASS}
       DATABASE_HOST: auth-db
       DATABASE_PORT: ${DB_PORT}
-    ports:
-      - "8000:8000"
 
   map-service:
     build: ./MapService
@@ -53,17 +51,23 @@ services:
       DATABASE_PASS: ${MAP_DB_PASS}
       DATABASE_HOST: map-db
       DATABASE_PORT: ${DB_PORT}
-    ports:
-      - "8001:8001"
 
   frontend:
     build: ./VueFrontend
-    ports:
-      - "7000:80"
+    expose:
+      - "80"
     depends_on:
       - auth-service
       - map-service
 
+  reverse-proxy:
+    build: ./ReverseProxy
+    depends_on:
+    - frontend
+    - auth-service
+    - map-service
+    ports:
+      - "7000:80"
 
 
   migration_auth:
