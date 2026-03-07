@@ -41,7 +41,8 @@ After cloning, initialize them:
 
 3. Copy `.env.example` to `.env` and fill in your variables.
 
-4. Create an empty `passcode.txt` file in the root of the project. This file is mounted in the daycode service container.
+4. Create an empty `passcode.txt` file in the root of the project.
+This file is mounted in the daycode service container.
 The service will populate the file with daily passcode on launch.
 
 5. Build and start all services:
