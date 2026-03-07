@@ -33,11 +33,15 @@ services:
     depends_on:
       - auth-db
     environment:
-      DATABASE_NAME: ${AUTH_DB_NAME}
-      DATABASE_USER: ${AUTH_DB_USER}
-      DATABASE_PASS: ${AUTH_DB_PASS}
-      DATABASE_HOST: auth-db
-      DATABASE_PORT: ${DB_PORT}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      DEBUG: ${DEBUG}
+      SECRET_KEY: ${SECRET_KEY:?}  
+      ALLOWED_HOSTS: ${AUTH_ALLOWED_HOSTS}
+      DAILYPASS_SERVICE_URL: ${DAILYPASS_SERVICE_URL}
+      POSTGRES_DB: ${AUTH_DB_NAME}
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASS}
+      DB_HOST: auth-db
 
   daycode-service:
     image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/dailycode-service:v1
@@ -55,11 +59,18 @@ services:
     depends_on:
       - map-db
     environment:
-      DATABASE_NAME: ${MAP_DB_NAME}
-      DATABASE_USER: ${MAP_DB_USER}
-      DATABASE_PASS: ${MAP_DB_PASS}
-      DATABASE_HOST: map-db
-      DATABASE_PORT: ${DB_PORT}
+      CORS_ALLOWED_ORIGINS:
+      DEBUG:
+      SECRET_KEY: ${SECRET_KEY:?}   
+      ALLOWED_HOSTS: ${MAP_ALLOWED_HOSTS}
+      POSTGRES_DB: ${MAP_DB_NAME}
+      POSTGRES_USER: ${MAP_DB_USER}
+      POSTGRES_PASSWORD: ${MAP_DB_PASS}
+      DB_HOST: map-db
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_STORAGE_BUCKET_NAME: ${AWS_STORAGE_BUCKET_NAME}
+      AWS_S3_REGION_NAME: ${AWS_S3_REGION_NAME}
 
   frontend:
     build: ./VueFrontend
@@ -84,12 +95,23 @@ services:
     command: ["python3", "manage.py", "migrate"]
     depends_on:
       - auth-db
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?}
+      POSTGRES_DB: ${AUTH_DB_NAME}
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASS}
+      DB_HOST: auth-db
 
   migration_map:
     build: ./MapService
     command: ["python3", "manage.py", "migrate"]
     depends_on:
       - map-db
+    environment:
+      POSTGRES_DB: ${MAP_DB_NAME}
+      POSTGRES_USER: ${MAP_DB_USER}
+      POSTGRES_PASSWORD: ${MAP_DB_PASS}
+      DB_HOST: map-db
 
 volumes:
   auth_data:
