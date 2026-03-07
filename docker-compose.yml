@@ -39,6 +39,15 @@ services:
       DATABASE_HOST: auth-db
       DATABASE_PORT: ${DB_PORT}
 
+  daycode-service:
+    image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/dailycode-service:v1
+    expose: 
+      - "9090"
+    volumes:
+      - type: bind
+        source: ./passcode.txt
+        target: /app/passcode.txt
+
   map-service:
     build: ./MapService
     expose:

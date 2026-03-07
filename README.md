@@ -6,6 +6,7 @@ This repository contains a Docker Compose setup for:
 - Django backend for authentication (auth-service)
 - Django backend for map (map-service)
 - Vue frontend (frontend)
+- NGINX reverse proxy to route requests
 
 ## Submodules
 
@@ -14,23 +15,37 @@ After cloning, initialize them:
 
 - DjangoBackend - DjangoBackend folder
 - MapService - MapService folder
-- VueFrontend - VueFrontend folder (branch feature/CLT-60-auth-frontend)
+- VueFrontend - VueFrontend folder
 
 ## Quick Start
 
 1. Clone this repository with submodules:
 
-   ```git clone --recurse-submodules```
+   ```sh
+   git clone --recurse-submodules
+   ```
 
    If you already cloned without --recurse-submodules, initialize them:
 
-   ```git submodule update --init --recursive```
+   ```sh
+   git submodule update --init --recursive
+   ```
 
-2. Copy `.env.example` to `.env` and fill in your variables.
+2. Run
 
-3. Build and start all services:
+   ```sh
+   git submodule update --remote
+   ```
 
-   ```docker compose up --build```
+   to update submodules to point to latest commits.
+
+3. Copy `.env.example` to `.env` and fill in your variables.
+
+4. Build and start all services:
+
+   ```sh
+   docker compose up --build
+   ```
 
 ## How to set up pre-commit hooks
 
