@@ -41,14 +41,11 @@ After cloning, initialize them:
 
 3. Copy `.env.example` to `.env` and fill in your variables.
 
-4. Build and start all services:
+4. Create an empty `passcode.txt` file in the root of the project. This file is mounted in the daycode service container.
+The service will populate the file with daily passcode on launch.
+
+5. Build and start all services:
 
    ```sh
    docker compose up --build
    ```
-
-## How to set up pre-commit hooks
-
-1. Install pre-commit from <https://pre-commit.com/#install>
-2. Run `pre-commit install`
-3. Auto-update the config to the latest version `pre-commit autoupdate`
