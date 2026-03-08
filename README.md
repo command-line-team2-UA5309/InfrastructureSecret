@@ -6,6 +6,7 @@ This repository contains a Docker Compose setup for:
 - Django backend for authentication (auth-service)
 - Django backend for map (map-service)
 - Vue frontend (frontend)
+- NGINX reverse proxy to route requests
 
 ## Submodules
 
@@ -14,26 +15,38 @@ After cloning, initialize them:
 
 - DjangoBackend - DjangoBackend folder
 - MapService - MapService folder
-- VueFrontend - VueFrontend folder (branch feature/CLT-60-auth-frontend)
+- VueFrontend - VueFrontend folder
 
 ## Quick Start
 
 1. Clone this repository with submodules:
 
-   ```git clone --recurse-submodules```
+   ```sh
+   git clone --recurse-submodules
+   ```
 
    If you already cloned without --recurse-submodules, initialize them:
 
-   ```git submodule update --init --recursive```
+   ```sh
+   git submodule update --init --recursive
+   ```
 
-2. Copy `.env.example` to `.env` and fill in your variables.
+2. Run
 
-3. Build and start all services:
+   ```sh
+   git submodule update --remote
+   ```
 
-   ```docker compose up --build```
+   to update submodules to point to latest commits.
 
-## How to set up pre-commit hooks
+3. Copy `.env.example` to `.env` and fill in your variables.
 
-1. Install pre-commit from <https://pre-commit.com/#install>
-2. Run `pre-commit install`
-3. Auto-update the config to the latest version `pre-commit autoupdate`
+4. Create an empty `passcode.txt` file in the root of the project.
+This file is mounted in the daycode service container.
+The service will populate the file with daily passcode on launch.
+
+5. Build and start all services:
+
+   ```sh
+   docker compose up --build
+   ```
