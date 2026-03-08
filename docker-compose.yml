@@ -27,7 +27,7 @@ services:
       - map_data:/var/lib/postgresql
 
   auth-service:
-    build: ./DjangoBackend
+    image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/auth-service:v1
     expose:
       - "8000"
     depends_on:
@@ -53,14 +53,14 @@ services:
         target: /app/passcode.txt
 
   map-service:
-    build: ./MapService
+    image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/map-service:v1
     expose:
       - "8001"
     depends_on:
       - map-db
     environment:
-      CORS_ALLOWED_ORIGINS:
-      DEBUG:
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      DEBUG: ${DEBUG}
       SECRET_KEY: ${SECRET_KEY:?}   
       ALLOWED_HOSTS: ${MAP_ALLOWED_HOSTS}
       POSTGRES_DB: ${MAP_DB_NAME}
@@ -73,7 +73,7 @@ services:
       AWS_S3_REGION_NAME: ${AWS_S3_REGION_NAME}
 
   frontend:
-    build: ./VueFrontend
+    image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/frontend:v1
     expose:
       - "80"
     depends_on:
@@ -81,7 +81,7 @@ services:
       - map-service
 
   reverse-proxy:
-    build: ./ReverseProxy
+    image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/reverse-proxy:v1
     depends_on:
     - frontend
     - auth-service
@@ -91,7 +91,7 @@ services:
 
 
   migration_auth:
-    build: ./DjangoBackend
+    image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/auth-service:v1
     command: ["python3", "manage.py", "migrate"]
     depends_on:
       - auth-db
@@ -103,7 +103,7 @@ services:
       DB_HOST: auth-db
 
   migration_map:
-    build: ./MapService
+    image: 093235337983.dkr.ecr.eu-central-1.amazonaws.com/cli-team/map-service:v1
     command: ["python3", "manage.py", "migrate"]
     depends_on:
       - map-db
